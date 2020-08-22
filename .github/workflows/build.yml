@@ -28,5 +28,9 @@ jobs:
         echo "::add-path::$NARWHAL_HOME/bin"
     - name: test
       run: jake test
-    - name: deploy
-      run: jake deploy
+    - name: genapp
+      run: capp gen StarterApp -t Application --noconfig
+    - uses: actions/upload-artifact@v2
+      with:
+      name: StarterApp
+      path: $GITHUB_WORKSPACE/StarterApp/
