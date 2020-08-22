@@ -296,7 +296,7 @@ if [ "$install_cappuccino" ]; then
     if [ -d "$install_directory" ]; then
         echo "================================================================================"
         echo "A directory already exists at $install_directory. Should we remove it now?"
-        if prompt "no"; then
+        if ! prompt "yes"; then
             rm -rf "$install_directory"
         else
             exit 1
@@ -349,7 +349,6 @@ if [ "$install_cappuccino" ]; then
 
         quiet_arg=""
         if (( $verbosity < 2 )); then quiet_arg="-q"; fi
-        mkdir -p "$install_directory"
         unzip $quiet_arg "$tmp_zip" -d "$install_directory"
         check_and_exit
         rm "$tmp_zip"
