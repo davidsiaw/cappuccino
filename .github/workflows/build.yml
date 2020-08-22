@@ -21,10 +21,10 @@ jobs:
         apk --no-cache add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
         echo "::set-env name=CAPP_BUILD::$GITHUB_WORKSPACE/Build"
         echo "::set-env name=NARWHAL_HOME::$HOME/narwhal"
+        mkdir -p $HOME
     - uses: actions/checkout@v2
     - name: bootstrap
       run: |
-        mkdir -p $NARWHAL_HOME
         bash bootstrap.sh --noprompt --directory $NARWHAL_HOME
         echo "::add-path::$NARWHAL_HOME/bin"
     - name: test
