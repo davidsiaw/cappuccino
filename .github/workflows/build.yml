@@ -11,15 +11,20 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:10.22.0-alpine3.11
+      env:
+        NARWHAL_ENGINE: rhino
     steps:
     - name: install deps
       run: |
         apk update
         apk add git bash
         apk --no-cache add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+        echo "::set-env CAPP_BUILD=action_state::$GITHUB_WORKSPACE/Build"
     - uses: actions/checkout@v2
     - name: bootstrap
-      run: bash bootstrap.sh --noprompt --directory ./narwhal
+      run: |
+        bash bootstrap.sh --noprompt --directory /github/home/narwhal
+        echo "::add-path::/github/home/narwhal/bin"
     - name: test
       run: jake test
     - name: deploy
