@@ -24,6 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: bootstrap
       run: |
+        mkdir -p $NARWHAL_HOME
         bash bootstrap.sh --noprompt --directory $NARWHAL_HOME
         echo "::add-path::$NARWHAL_HOME/bin"
     - name: test
