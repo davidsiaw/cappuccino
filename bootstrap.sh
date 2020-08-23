@@ -349,6 +349,7 @@ if [ "$install_cappuccino" ]; then
 
         quiet_arg=""
         if (( $verbosity < 2 )); then quiet_arg="-q"; fi
+        mkdir -p "$install_directory"
         unzip $quiet_arg "$tmp_zip" -d "$install_directory"
         check_and_exit
         rm "$tmp_zip"

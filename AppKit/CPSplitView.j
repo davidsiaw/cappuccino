@@ -94,6 +94,9 @@ var ShouldSuppressResizeNotifications   = 1,
     DidSuppressResizeNotification       = 1 << 2;
 
 // FIXME: Previous implementation (before October 2018 and Aristo3) uses direct DOM elements manipulations to render dividers.
+//        In order to maintain compatibility, the new implementation (based on CSS theming) lives in parallel with the previous one.
+//        When, in the future, we will have decided to remove image based themes compatibility, please clean the code.
+//        New code is generally protected with _isCSSBased.
 //
 //        When we'll implement storyboards, we'll also have to implement NSSplitViewController & NSSplitViewItem
 //        See https://asciiwwdc.com/2015/sessions/221 & https://developer.apple.com/documentation/appkit/nssplitviewcontroller?language=objc
