@@ -29,8 +29,9 @@ jobs:
     - name: test
       run: jake test
     - name: genapp
-      run: capp gen StarterApp -t Application --noconfig
+      run: |
+        capp gen StarterApp -t Application --noconfig
     - uses: actions/upload-artifact@v2
       with:
         name: StarterApp
-        path: $GITHUB_WORKSPACE/StarterApp/
+        path: ${{ env.GITHUB_WORKSPACE }}/StarterApp/
