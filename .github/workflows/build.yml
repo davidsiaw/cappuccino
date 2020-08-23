@@ -31,7 +31,8 @@ jobs:
     - name: genapp
       run: |
         capp gen StarterApp -t Application --noconfig
+        echo "::set-env name=APP_LOCATION::$GITHUB_WORKSPACE/StarterApp/"
     - uses: actions/upload-artifact@v2
       with:
         name: StarterApp
-        path: ${{ env.GITHUB_WORKSPACE }}/StarterApp/
+        path: ${{ env.APP_LOCATION }}
