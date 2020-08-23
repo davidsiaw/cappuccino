@@ -126,7 +126,7 @@ var CPURLConnectionDelegate = nil;
             key = nil,
             keys = [fields keyEnumerator];
 
-        while ((key = [keys nextObject]) !== nil)
+        while ((key = [keys nextObject]) != nil)
             aCFHTTPRequest.setRequestHeader(key, [fields objectForKey:key]);
 
         aCFHTTPRequest.send([aRequest HTTPBody]);
@@ -260,7 +260,7 @@ var CPURLConnectionDelegate = nil;
             key = nil,
             keys = [fields keyEnumerator];
 
-        while ((key = [keys nextObject]) !== nil)
+        while ((key = [keys nextObject]) != nil)
             _HTTPRequest.setRequestHeader(key, [fields objectForKey:key]);
 
         _HTTPRequest.send([_request HTTPBody]);
@@ -275,7 +275,7 @@ var CPURLConnectionDelegate = nil;
 {
     if ([_delegate respondsToSelector:@selector(connection:didFailWithError:)])
         [_delegate connection:self didFailWithError:anException];
-    else if (_connectionOperation !== nil)
+    else if (_connectionOperation != nil)
         [self _connectionOperationDidReceiveResponse:nil data:nil error:anException];
 }
 
@@ -353,7 +353,7 @@ var CPURLConnectionDelegate = nil;
             {
                 if ([_delegate respondsToSelector:@selector(connection:didReceiveData:)])
                     [_delegate connection:self didReceiveData:_HTTPRequest.responseText()];
-                else if (_connectionOperation !== nil)
+                else if (_connectionOperation != nil)
                     [self _connectionOperationDidReceiveResponse:response data:_HTTPRequest.responseText() error:nil];
 
                 if ([_delegate respondsToSelector:@selector(connectionDidFinishLoading:)])

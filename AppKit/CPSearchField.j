@@ -183,7 +183,7 @@ var CPAutosavedRecentsChangedNotification = @"CPAutosavedRecentsChangedNotificat
 - (void)resetSearchButton
 {
     var button = [self searchButton],
-        searchButtonImage = (_searchMenuTemplate === nil) ? [self currentValueForThemeAttribute:@"image-search"] : [self currentValueForThemeAttribute:@"image-find"];
+        searchButtonImage = (_searchMenuTemplate == nil) ? [self currentValueForThemeAttribute:@"image-search"] : [self currentValueForThemeAttribute:@"image-find"];
 
     [button setBordered:NO];
     [button setImageScaling:CPImageScaleAxesIndependently];
@@ -491,7 +491,7 @@ var CPAutosavedRecentsChangedNotification = @"CPAutosavedRecentsChangedNotificat
 
 - (void)_addStringToRecentSearches:(CPString)string
 {
-    if (string === nil || string === @"" || [_recentSearches containsObject:string])
+    if (string == nil || string === @"" || [_recentSearches containsObject:string])
         return;
 
     var searches = [CPMutableArray arrayWithArray:_recentSearches];
@@ -598,7 +598,7 @@ var CPAutosavedRecentsChangedNotification = @"CPAutosavedRecentsChangedNotificat
 
 - (void)_updateSearchMenu
 {
-    if (_searchMenuTemplate === nil)
+    if (_searchMenuTemplate == nil)
         return;
 
     var menu = [[CPMenu alloc] init],
@@ -678,7 +678,7 @@ var CPAutosavedRecentsChangedNotification = @"CPAutosavedRecentsChangedNotificat
 
 - (void)_showMenu
 {
-    if (_searchMenu === nil || [_searchMenu numberOfItems] === 0 || ![self isEnabled])
+    if (_searchMenu == nil || [_searchMenu numberOfItems] === 0 || ![self isEnabled])
         return;
 
     var aFrame = [[self superview] convertRect:[self frame] toView:nil],
@@ -752,12 +752,12 @@ var CPAutosavedRecentsChangedNotification = @"CPAutosavedRecentsChangedNotificat
 - (void)_loadRecentSearchList
 {
     var name = [self recentsAutosaveName];
-    if (name === nil)
+    if (name == nil)
         return;
 
     var list = [[CPUserDefaults standardUserDefaults] objectForKey:name];
 
-    if (list !== nil)
+    if (list != nil)
         _recentSearches = list;
 }
 
@@ -906,16 +906,21 @@ var CPRecentsAutosaveNameKey            = @"CPRecentsAutosaveNameKey",
     var destination = [_info objectForKey:CPObservedObjectKey],
         keyPath     = [_info objectForKey:CPObservedKeyPathKey];
 
-    var formatString = _predicateFormat.replace(/\$value/g, "%@");
     [self suppressSpecificNotificationFromObject:destination keyPath:keyPath];
 
     if (aValue)
-        [_controller setFilterPredicate:[CPPredicate predicateWithFormat:formatString, aValue]];
+    {
+        var values       = @[],
+            formatString = _predicateFormat.replace(/\$value/g, function(x) {[values addObject:aValue]; return "%@";});
+
+        [_controller setFilterPredicate:[CPPredicate predicateWithFormat:formatString argumentArray:values]];
+    }
     else
         [_controller setFilterPredicate:nil];
 
     [self unsuppressSpecificNotificationFromObject:destination keyPath:keyPath];
 }
+
 - (CPString)searchFieldValue
 {
     return [_source stringValue];
