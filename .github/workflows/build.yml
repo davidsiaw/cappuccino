@@ -28,6 +28,8 @@ jobs:
         echo "::add-path::$NARWHAL_HOME/bin"
     - name: test
       run: jake test
+    - name: install
+      run: jake install
     - name: genapp
       run: |
         capp gen StarterApp -t Application --noconfig
@@ -36,3 +38,17 @@ jobs:
       with:
         name: StarterApp
         path: ${{ env.APP_LOCATION }}
+    - name: zip for nightly
+      run: zip -r starter_app StarterApp
+    - name: deploy-nightly
+      if: github.ref == 'refs/heads/master'
+      uses: WebFreak001/deploy-nightly@v1.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: https://uploads.github.com/repos/davidsiaw/cappuccino/releases/30086598/assets{?name,label}
+        release_id: 30086598
+        asset_path: ./starter_app.zip # path to archive to upload
+        asset_name: starter_app-$$.zip # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
+        asset_content_type: application/zip
+        max_releases: 7
